@@ -1,16 +1,19 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Typography, InputAdornment, Button, Link } from '@material-ui/core';
+import { Grid, TextField, Typography, InputAdornment, Button } from '@material-ui/core';
 import logo from '../assets/login.jpg';
 import lockIcon from '../assets/lockIcon.svg';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             flexGrow: 1,
+            width: "1920px",
+            height: "900px"
         },
         loginGrid: {
             width: "1155px",
@@ -56,7 +59,7 @@ const useStyles = makeStyles((theme) =>
             '&:hover': {
                 font: "normal normal normal 16px/18px Helvetica Neue",
                 color: "#3B9AFF",
-                marginTop:" 10px",
+                marginTop: " 10px",
                 textDecoration: "underline",
             }
         }
@@ -65,7 +68,10 @@ const useStyles = makeStyles((theme) =>
 export default function Login() {
 
     const classes = useStyles();
-
+    const history = useHistory()
+    const onRegistration = () => {
+        history.push('/register')
+    }
     return (
         <Grid container className={classes.root}>
             <Grid className={classes.loginGrid} item xs={6}>
@@ -104,7 +110,7 @@ export default function Login() {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <img src={lockIcon} height="25px" width="22px" alt="logo" />
+                                        <img src={lockIcon} height="22px" width="18px" alt="" />
                                     </InputAdornment>
                                 ),
                                 endAdornment: (
@@ -122,10 +128,17 @@ export default function Login() {
                         />
                     </Grid>
                     <Grid>
-                        <Button className={classes.loginButton} variant="outlined" disableRipple="false">LOGIN</Button>
+                        <Button className={classes.loginButton}
+                            variant="outlined"
+                            disableRipple="false">LOGIN
+                          </Button>
                     </Grid>
                     <Grid>
-                        <Button className={classes.linkText} variant="text" disableRipple="false">Don't have account? Click here</Button>
+                        <Button className={classes.linkText}
+                            variant="text"
+                            disableRipple="false"
+                            onClick={onRegistration}>Don't have account? Click here
+                           </Button>
                     </Grid>
                 </Grid>
             </Grid>
