@@ -1,9 +1,7 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Typography, InputAdornment, Button } from '@material-ui/core';
+import { Grid, TextField, Typography, InputAdornment, Button, CardMedia } from '@material-ui/core';
 import logo from '../assets/registration.jpg';
-import facebookButton from '../assets/facebookButton.svg';
-import googleButton from '../assets/googleButton.svg';
 import lockIcon from '../assets/lockIcon.svg';
 import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
@@ -20,21 +18,26 @@ const useStyles = makeStyles((theme) =>
             width: "1155px",
             height: "900px",
             backgroundColor: "#89279E",
-            opacity: "0.8"
         },
         sideImage: {
-            background: `url(${logo})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "765px 900px",
-            opacity: "0.6"
-
+            height: "900px",
         },
         signupText: {
             // color: 'transparent linear-gradient(180deg, #C18686 0%, #FBD3D3 100%)',
             color: "#C18686",
             fontSize: "50px",
             marginLeft: "390px",
-            marginTop: "70px"
+            marginTop: "-35px"
+        },
+        logoText: {
+            font: "normal normal normal 100px/130px Curlz MT",
+            color: "#FFFFFF",
+            marginLeft: "30px",
+        },
+        logominiText: {
+            font: "normal normal normal 30px/5px Curlz MT",
+            color: "#FFFFFF",
+            marginLeft: "100px",
         },
         line: {
             width: "261px",
@@ -85,12 +88,14 @@ export default function Signup() {
 
     return (
         <Grid container className={classes.root}>
-            <Grid className={classes.signupGrid} item xs={6}>
+            <Grid className={classes.signupGrid} item xs={7}>
+                <Typography className={classes.logoText}>Divine</Typography>
+                <Typography className={classes.logominiText}>Explore</Typography>
                 <Typography className={classes.signupText}>Sign up</Typography>
                 <div className={classes.line}></div>
                 <Grid className={classes.textfieldGrid} >
                     <Grid container xs={9}>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <TextField
                                 placeholder="First Name"
                                 variant="outlined"
@@ -125,13 +130,12 @@ export default function Signup() {
                                 style={{
                                     backgroundColor: "white",
                                     color: "#868D96",
-                                    width: "140px",
+                                    width: "147px",
                                     marginBottom: "32px"
                                 }}
                             />
                         </Grid>
                     </Grid>
-
                     <Grid item>
                         <TextField
                             placeholder="Username"
@@ -227,15 +231,8 @@ export default function Signup() {
                     </Grid>
                 </Grid>
             </Grid>
-
-            <Grid className={classes.sideImage} item xs={6}>
-                {/* <img src={logo} style={{ height: "900px", width: "765px", opacity: "0.6" }} alt="logo" /> */}
-                <Button disableRipple="false">
-                    <img src={facebookButton} style={{ height: "88px", width: "460px", opacity: 1, marginLeft: "140px", marginTop: "200px" }} alt="facebook" />
-                </Button>
-                <Button disableRipple="false">
-                    <img src={googleButton} style={{ height: "88px", width: "460px", opacity: 1, marginLeft: "140px", marginTop: "20px" }} alt="facebook" />
-                </Button>
+            <Grid item xs={5}>
+                <CardMedia className={classes.sideImage} component="img" src={logo} />
             </Grid>
         </Grid>
     )
