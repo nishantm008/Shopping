@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) =>
         root: {
             flexGrow: 1,
             width: "1920px",
-            height: "900px"
+            height: "937px"
         },
         signupGrid: {
             width: "1155px",
