@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Grid, TextField, Typography, InputAdornment, Button, CardMedia } from '@material-ui/core';
 import logo from '../assets/registration.jpg';
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) =>
             height: "900px",
         },
         signupText: {
-            // color: 'transparent linear-gradient(180deg, #C18686 0%, #FBD3D3 100%)',
             color: "#C18686",
             fontSize: "50px",
             marginLeft: "390px",
@@ -48,7 +47,14 @@ const useStyles = makeStyles((theme) =>
         },
         textfieldGrid: {
             marginTop: "50px",
-            marginLeft: "330px"
+            marginLeft: "330px",
+            '& .MuiTextField-root': {
+                background: "#FFFFFF 0% 0% no-repeat",
+                borderRadius: "5px",
+                width: "270px",
+                marginBottom: "32px",
+                marginLeft: "15px"
+            },
         },
         registerButton: {
             marginLeft: "50px",
@@ -82,6 +88,48 @@ export default function Signup() {
 
     const classes = useStyles();
     const history = useHistory()
+    const [fullName, setfullName] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setconfirmPassword] = useState("");
+    const [confirmpasswordErrorState, setconfirmpasswordErrorState] = useState();
+
+    const onChangefullName = (e) => {
+        setfullName(e.target.value);
+    };
+
+    const onChangeUsername = (e) => {
+        setUsername(e.target.value);
+    };
+
+    const onChangeEmail = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const onChangePassword = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const onChangeconfirmPassword = (e) => {
+        setconfirmPassword(e.target.value);
+    };
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (password === confirmPassword) {
+            setconfirmpasswordErrorState("");
+        } else {
+            setconfirmpasswordErrorState("Password does not matched!");
+        }
+        history.push('/')
+        alert(
+                "User registered successfully"
+        );
+    }
+
+
     const onLogin = () => {
         history.push('/')
     }
@@ -94,12 +142,16 @@ export default function Signup() {
                 <Typography className={classes.signupText}>Sign up</Typography>
                 <div className={classes.line}></div>
                 <Grid className={classes.textfieldGrid} >
-                    <Grid container xs={9}>
-                        <Grid item xs={3}>
+                    <form onSubmit={handleSubmit}>
+                        <Grid item>
                             <TextField
-                                placeholder="First Name"
+                                name="fullName"
+                                value={fullName}
+                                onChange={onChangefullName}
+                                placeholder="Full Name"
                                 variant="outlined"
                                 size="small"
+                                required
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -107,19 +159,17 @@ export default function Signup() {
                                         </InputAdornment>
                                     ),
                                 }}
-                                style={{
-                                    backgroundColor: "white",
-                                    color: "#868D96",
-                                    width: "140px",
-                                    marginBottom: "32px"
-                                }}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item>
                             <TextField
-                                placeholder="Last Name"
+                                name="username"
+                                value={username}
+                                onChange={onChangeUsername}
+                                placeholder="Username"
                                 variant="outlined"
                                 size="small"
+                                required
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -127,108 +177,89 @@ export default function Signup() {
                                         </InputAdornment>
                                     ),
                                 }}
-                                style={{
-                                    backgroundColor: "white",
-                                    color: "#868D96",
-                                    width: "147px",
-                                    marginBottom: "32px"
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                name="email"
+                                value={email}
+                                onChange={onChangeEmail}
+                                placeholder="Email"
+                                variant="outlined"
+                                size="small"
+                                required
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <EmailIcon />
+                                        </InputAdornment>
+                                    ),
                                 }}
                             />
                         </Grid>
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            placeholder="Username"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <PersonIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={{
-                                backgroundColor: "white",
-                                color: "#868D96",
-                                width: "295px",
-                                marginBottom: "32px"
-                            }}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            placeholder="Email"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <EmailIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={{
-                                backgroundColor: "white",
-                                color: "#868D96",
-                                width: "295px",
-                                marginBottom: "40px"
-                            }}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            placeholder="Password"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <img src={lockIcon} height="22px" width="18px" alt="" />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={{
-                                backgroundColor: "white",
-                                color: "#868D96",
-                                width: "295px",
-                                marginBottom: "40px"
-                            }}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            placeholder="Confirm Password"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <img src={lockIcon} height="22px" width="18px" alt="" />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={{
-                                backgroundColor: "white",
-                                color: "#868D96",
-                                width: "295px",
-                                marginBottom: "40px"
-                            }}
-                        />
-                    </Grid>
-                    <Grid>
-                        <Button className={classes.registerButton}
-                            variant="outlined"
-                            disableRipple="false">Register
+                        <Grid item>
+                            <TextField
+                                name="password"
+                                value={password}
+                                onChange={onChangePassword}
+                                placeholder="Password"
+                                variant="outlined"
+                                size="small"
+                                required
+                                type="password"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <img src={lockIcon} height="22px" width="18px" alt="" />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                error={confirmpasswordErrorState}
+                                name="confirmPassword"
+                                value={confirmPassword}
+                                onChange={onChangeconfirmPassword}
+                                helperText={confirmpasswordErrorState}
+                                placeholder="Confirm Password"
+                                variant="outlined"
+                                size="small"
+                                required
+                                type="password"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <img src={lockIcon} height="22px" width="18px" alt="" />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                        <Grid>
+                            <Button className={classes.registerButton}
+                                variant="outlined"
+                                disableRipple="false"
+                                type="submit"
+                                disabled=
+                                {!(fullName.length > 0 &&
+                                    username.length > 0 &&
+                                    email.length > 0 &&
+                                    password.length > 0 &&
+                                    confirmPassword.length > 0)}
+                            >
+                                Register
                           </Button>
-                    </Grid>
-                    <Grid>
-                        <Button className={classes.linkText}
-                            variant="text"
-                            disableRipple="false"
-                            onClick={onLogin}>Already have an account? Click here
+                        </Grid>
+                        <Grid>
+                            <Button className={classes.linkText}
+                                variant="text"
+                                disableRipple="false"
+                                onClick={onLogin}>Already have an account? Click here
                            </Button>
-                    </Grid>
+                        </Grid>
+                    </form>
                 </Grid>
             </Grid>
             <Grid item xs={5}>

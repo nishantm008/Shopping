@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Typography, InputAdornment, Button, CardMedia } from '@material-ui/core';
+import { Grid, TextField, Typography, InputAdornment, Button, CardMedia, IconButton } from '@material-ui/core';
 import logo from '../assets/login.jpg';
 import lockIcon from '../assets/lockIcon.svg';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonIcon from '@material-ui/icons/Person';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import facebookButton from '../assets/facebookButton.svg';
 import googleButton from '../assets/googleButton.svg';
 import { GoogleLogin } from 'react-google-login';
@@ -26,7 +27,6 @@ const useStyles = makeStyles((theme) =>
             backgroundColor: "#89279E"
         },
         loginText: {
-            // color: 'transparent linear-gradient(180deg, #C18686 0%, #FBD3D3 100%)',
             color: "#C18686",
             fontSize: "50px",
             marginLeft: "420px"
@@ -50,11 +50,18 @@ const useStyles = makeStyles((theme) =>
         },
         textfieldGrid: {
             marginTop: "80px",
-            marginLeft: "350px"
+            marginLeft: "350px",
+            '& .MuiTextField-root': {
+                background: "#FFFFFF 0% 0% no-repeat padding-box",
+                borderRadius: "5px",
+                width: "270px",
+                marginBottom: "32px"
+            },
         },
         loginButton: {
             marginLeft: "45px",
-            marginBottom: "10px",
+            marginBottom: "20px",
+            marginTop: "40px",
             width: "182px",
             height: "39px",
             borderRadius: "20px",
@@ -81,13 +88,35 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
-// const clientId =
-//     '795447102884-qvi4l8mu3i2bdcta9cq3iuk04mr1j80g.apps.googleusercontent.com';
-
 export default function Login() {
 
     const classes = useStyles();
     const history = useHistory()
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+
+    const onChangeUsername = (e) => {
+        setUsername(e.target.value);
+    };
+
+    const onChangePassword = (e) => {
+        setPassword(e.target.value);
+    };
+
+    const onPasswordVisibilityToggle = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        history.push('/home')
+        console.log('Login Success: currentUser:', username);
+        alert(
+            `Logged in successfully welcome ${username}.`
+        );
+    }
+
     const onRegistration = () => {
         history.push('/register')
     }
@@ -114,7 +143,7 @@ export default function Login() {
         alert(
             `Logged in successfully welcome ${res.name}.`
         );
-      }
+    }
 
     return (
         <Grid container className={classes.root}>
@@ -127,74 +156,81 @@ export default function Login() {
                 <Typography className={classes.loginText}>Login</Typography>
                 <div className={classes.line}></div>
                 <Grid className={classes.textfieldGrid} >
-                    <Grid item>
-                        <TextField
-                            placeholder="Username or Email"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <PersonIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={{
-                                backgroundColor: "white",
-                                color: "#868D96",
-                                width: "270px",
-                                marginBottom: "32px"
-                            }}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            placeholder="Password"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <img src={lockIcon} height="22px" width="18px" alt="" />
-                                    </InputAdornment>
-                                ),
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <VisibilityIcon />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={{
-                                backgroundColor: "white",
-                                color: "#868D96",
-                                width: "270px",
-                                marginBottom: "40px"
-                            }}
-                        />
-                    </Grid>
-                    <Grid>
-                        <Button className={classes.loginButton}
-                            variant="outlined"
-                            disableRipple="false">LOGIN
+                    <form onSubmit={handleSubmit}>
+                        <Grid item>
+                            <TextField
+                                name="username"
+                                value={username}
+                                required
+                                onChange={onChangeUsername}
+                                placeholder="Username or Email"
+                                variant="outlined"
+                                size="small"
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <PersonIcon />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                name="password"
+                                value={password}
+                                required
+                                onChange={onChangePassword}
+                                placeholder="Password"
+                                variant="outlined"
+                                size="small"
+                                type={showPassword ? 'text' : 'password'}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <img src={lockIcon} height="22px" width="18px" alt="" />
+                                        </InputAdornment>
+                                    ),
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={onPasswordVisibilityToggle}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                        </Grid>
+                        <Grid>
+                            <Button className={classes.loginButton}
+                                variant="outlined"
+                                disableRipple="false"
+                                type="submit"
+                                disabled={!(username.length > 0 && password.length > 0)}
+                            >
+                                LOGIN
                           </Button>
-                    </Grid>
-                    <Grid>
-                        <Button className={classes.linkText}
-                            variant="text"
-                            disableRipple="false"
-                            onClick={onRegistration}>Don't have account? Click here
+                        </Grid>
+                        <Grid>
+                            <Button className={classes.linkText}
+                                variant="text"
+                                disableRipple="false"
+                                onClick={onRegistration}
+                            >
+                                Don't have account? Click here
                            </Button>
-                    </Grid>
+                        </Grid>
+                    </form>
                 </Grid>
                 <Grid>
-                    {/* <Button style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "20px" }}>
-                        <img src={facebookButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
-                    </Button> */}
                     <FacebookLogin
                         appId="126512782728952"
-                        // autoLoad
                         callback={responseFacebook}
-                        onFailure= {onFailure}
+                        onFailure={onFailure}
                         render={renderProps => (
                             <Button onClick={renderProps.onClick}
                                 style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "20px" }}>
@@ -204,9 +240,6 @@ export default function Login() {
                     />
                 </Grid>
                 <Grid>
-                    {/* <Button style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "10px"}}>
-                    <img src={googleButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
-                </Button> */}
                     <GoogleLogin
                         clientId="795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com"
                         render={renderProps => (
@@ -216,7 +249,6 @@ export default function Login() {
                                 <img src={googleButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
                             </Button>
                         )}
-                        buttonText="Login"
                         onSuccess={onSuccess}
                         onFailure={onFailure}
                         cookiePolicy={'single_host_origin'}
