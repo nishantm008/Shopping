@@ -24,9 +24,12 @@ router.post(
     check("password", "Please enter a valid password").isLength({
       min: 6
     }),
-    check("confirmPassword", "Password does not matched").isLength({
-      min: 6
-    }),
+    check('confirmPassword').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Password Confirmation does not match password');
+      }
+      return true;
+    })
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -45,19 +48,12 @@ router.post(
     } = req.body;
     try {
       let user = await User.findOne({
-        email
+        email,
+        username
       });
       if (user) {
         return res.status(400).json({
-          msg: "User Already Exists"
-        });
-      }
-      let name = await User.findOne({
-        username
-      });
-      if (name) {
-        return res.status(400).json({
-          msg: "Username Already Exists"
+          message: "User Already Exists"
         });
       }
 
@@ -88,7 +84,7 @@ router.post(
         (err, token) => {
           if (err) throw err;
           res.status(200).json({
-            token
+            token,
           });
         }
       );
@@ -102,7 +98,7 @@ router.post(
 router.post(
   "/login",
   [
-    check("username", "Please enter a valid email").not(),
+    check("username", "Please enter a valid username").not(),
     check("password", "Please enter a valid password").isLength({
       min: 6
     })
@@ -112,14 +108,14 @@ router.post(
 
     if (!errors.isEmpty()) {
       return res.status(400).json({
-        errors: errors.array()
+        message: "Username/Password is incorrect"
       });
     }
 
     const { username, password } = req.body;
     try {
       let user = await User.findOne({
-        username
+        username,
       });
       if (!user)
         return res.status(400).json({
@@ -147,7 +143,8 @@ router.post(
         (err, token) => {
           if (err) throw err;
           res.status(200).json({
-            token
+            token,
+            user
           });
         }
       );
@@ -170,6 +167,16 @@ router.get("/me", auth, async (req, res) => {
   try {
     // request.user is getting fetched from Middleware after token authentication
     const user = await User.findById(req.user.id);
+    res.json(user);
+  } catch (e) {
+    res.send({ message: "Error in Fetching user" });
+  }
+});
+
+router.get("/getuser", async (req, res) => {
+  try {
+    // request.user is getting fetched from Middleware after token authentication
+    const user = await User.find(req.user);
     res.json(user);
   } catch (e) {
     res.send({ message: "Error in Fetching user" });

@@ -8,11 +8,13 @@ import PersonIcon from '@material-ui/icons/Person';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import facebookButton from '../assets/facebookButton.svg';
-import googleButton from '../assets/googleButton.svg';
-import { GoogleLogin } from 'react-google-login';
+// import googleButton from '../assets/googleButton.svg';
+// import { GoogleLogin } from 'react-google-login';
 import { useHistory } from 'react-router';
-import { refreshTokenSetup } from '../utils/refreshToken';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+// import { refreshTokenSetup } from '../utils/refreshToken';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import axios from 'axios';
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -110,32 +112,50 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        history.push('/home')
-        console.log('Login Success: currentUser:', username);
-        alert(
-            `Logged in successfully welcome ${username}.`
-        );
+        const payload = {
+            "username": username,
+            "password": password,
+        }
+        axios.post(API_BASE_URL + '/user/login', payload)
+            .then(function (response) {
+                if (response.status === 200) {
+                    console.log("Login Successful", response.data)
+                    localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
+                    history.push('/home')
+                    alert(
+                        `Logged in successfully welcome ${response.data.user.fullName}.`
+                    );
+                } else {
+                    console.log("Some error ocurred");
+                }
+            })
+            .catch(function (error) {
+                console.log(error.response.data.message);
+                alert(
+                    `${error.response.data.message}.`
+                );
+            });
     }
 
     const onRegistration = () => {
         history.push('/register')
     }
 
-    const onSuccess = (res) => {
-        history.push('/home')
-        console.log('Login Success: currentUser:', res.profileObj);
-        alert(
-            `Logged in successfully welcome ${res.profileObj.name}.`
-        );
-        refreshTokenSetup(res);
-    };
+    // const onSuccess = (res) => {
+    //     history.push('/home')
+    //     console.log('Login Success: currentUser:', res.profileObj);
+    //     alert(
+    //         `Logged in successfully welcome ${res.profileObj.name}.`
+    //     );
+    //     refreshTokenSetup(res);
+    // };
 
-    const onFailure = (res) => {
-        console.log('Login failed: res:', res);
-        alert(
-            `Failed to login.`
-        );
-    };
+    // const onFailure = (res) => {
+    //     console.log('Login failed: res:', res);
+    //     alert(
+    //         `Failed to login.`
+    //     );
+    // };
 
     const responseFacebook = (res) => {
         history.push('/home')
@@ -163,7 +183,7 @@ export default function Login() {
                                 value={username}
                                 required
                                 onChange={onChangeUsername}
-                                placeholder="Username or Email"
+                                placeholder="Username"
                                 variant="outlined"
                                 size="small"
                                 InputProps={{
@@ -230,7 +250,7 @@ export default function Login() {
                     <FacebookLogin
                         appId="126512782728952"
                         callback={responseFacebook}
-                        onFailure={onFailure}
+                        // onFailure={onFailure}
                         render={renderProps => (
                             <Button onClick={renderProps.onClick}
                                 style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "20px" }}>
@@ -240,19 +260,19 @@ export default function Login() {
                     />
                 </Grid>
                 <Grid>
-                    <GoogleLogin
-                        clientId="795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com"
-                        render={renderProps => (
-                            <Button onClick={renderProps.onClick}
-                                disabled={renderProps.disabled}
-                                style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "10px" }}>
-                                <img src={googleButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
-                            </Button>
-                        )}
-                        onSuccess={onSuccess}
-                        onFailure={onFailure}
-                        cookiePolicy={'single_host_origin'}
-                    />
+                    {/* <GoogleLogin
+                    clientId="795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com"
+                    render={renderProps => (
+                        <Button onClick={renderProps.onClick}
+                            disabled={renderProps.disabled}
+                            style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "10px" }}>
+                            <img src={googleButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
+                        </Button>
+                    )}
+                    // onSuccess={onSuccess}
+                    // onFailure={onFailure}
+                    cookiePolicy={'single_host_origin'}
+                /> */}
                 </Grid>
             </Grid>
             <Grid item xs={5}>
