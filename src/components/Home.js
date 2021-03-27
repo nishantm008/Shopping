@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import { Typography, Button, Tabs, Tab } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import { GoogleLogout } from 'react-google-login';
+// import { GoogleLogout } from 'react-google-login';
 import shopping1 from '../assets/shopping1.jpg';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -18,8 +18,8 @@ import { useHistory } from 'react-router';
 import upArrow from '../assets/upArrow.svg';
 import downArrow from '../assets/downArrow.svg';
 
-const clientId =
-    '795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com';
+// const clientId =
+//     '795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com';
 
 const StyledTabs = withStyles({
     indicator: {
@@ -145,8 +145,8 @@ export default function Home() {
     };
 
     const onSuccessLogout = () => {
+        localStorage.clear();
         history.push('/')
-        console.log('Logout made successfully');
         alert('Logout made successfully ✌');
     };
 
@@ -164,8 +164,8 @@ export default function Home() {
             role="presentation"
             onClick={handleDrawerOpen}
         >
-            {/* <Button className={classes.log} color="secondary" onClick={onLogout} variant="text">Logout</Button> */}
-            <GoogleLogout
+            <Button className={classes.log} color="primary" onClick={onSuccessLogout} variant="text">Logout</Button>
+            {/* <GoogleLogout
                 clientId={clientId}
                 buttonText="Logout"
                 onLogoutSuccess={onSuccessLogout}
@@ -174,7 +174,7 @@ export default function Home() {
                         onClick={renderProps.onClick}
                         variant="text">Logout</Button>
                 )}
-            ></GoogleLogout>
+            ></GoogleLogout> */}
         </div>
     );
 
@@ -211,13 +211,13 @@ export default function Home() {
                 <Grid container>
                     <Grid item xs={2}>
                         <Button variant="text">Spring</Button><br></br>
-                        <Button variant="text" style={{marginTop: "80px", }}>Winter</Button>
-                        <Button variant="text" style={{marginTop: "80px", }}>Autumn</Button>
-                        <Button variant="text" style={{marginTop: "80px", }}>Summer</Button>
+                        <Button variant="text" style={{ marginTop: "80px", }}>Winter</Button>
+                        <Button variant="text" style={{ marginTop: "80px", }}>Autumn</Button>
+                        <Button variant="text" style={{ marginTop: "80px", }}>Summer</Button>
                     </Grid>
                     <Grid item xs={1}>
-                        <img src={upArrow} style={{marginTop:"235px"}} alt=""/><br></br>
-                        <img src={downArrow} style={{marginTop:"80px"}} alt=""/>
+                        <img src={upArrow} style={{ marginTop: "235px" }} alt="" /><br></br>
+                        <img src={downArrow} style={{ marginTop: "80px" }} alt="" />
                     </Grid>
                     <Grid item xs={1}>
                         <img src={shopping1} style={{

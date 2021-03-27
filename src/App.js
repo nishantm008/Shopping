@@ -6,6 +6,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import PrivateRoute from './utils/PrivateRoute';
 import Home from './components/Home';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
@@ -28,7 +29,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Registration} />
-          <Route exact path="/home" component={Home} />
+          <PrivateRoute exact path="/home" component={Home} />
         </Switch>
       </Router>
     </ThemeProvider>
