@@ -13,8 +13,9 @@ import facebookButton from '../assets/facebookButton.svg';
 import { useHistory } from 'react-router';
 // import { refreshTokenSetup } from '../utils/refreshToken';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import axios from 'axios';
+// import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
+// import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -90,7 +91,22 @@ const useStyles = makeStyles((theme) =>
     }),
 );
 
-export default function Login() {
+const registeredUser = (data) => new Promise(async (resolve, reject) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        const result = await response.json()
+        resolve(result)
+    } catch (e) {
+        reject(e)
+    }
+})
+export default function Login(props) {
 
     const classes = useStyles();
     const history = useHistory()
@@ -110,31 +126,51 @@ export default function Login() {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const payload = {
+        const user = {
             "username": username,
             "password": password,
         }
-        axios.post(API_BASE_URL + '/user/login', payload)
-            .then(function (response) {
-                if (response.status === 200) {
-                    console.log("Login Successful", response.data)
-                    localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                    history.push('/home')
-                    alert(
-                        `Logged in successfully welcome ${response.data.user.fullName}.`
-                    );
-                } else {
-                    console.log("Some error ocurred");
-                }
-            })
-            .catch(function (error) {
-                console.log(error.response.data.message);
+        try {
+            const result = await registeredUser(user)
+            if (result.user) {
+                console.log('Success:', result)
+                localStorage.setItem(ACCESS_TOKEN_NAME, result.token);
+                history.push({
+                    pathname: '/home',
+                    state: { result }
+                  })
                 alert(
-                    `${error.response.data.message}.`
+                    `Logged in successfully welcome ${result.user.fullName}.`
                 );
-            });
+            }
+            if (result.message) {
+                console.log(result.message)
+                alert(result.message)
+            }
+        } catch (error) {
+            console.error('unhandled error:', error)
+        }
+        // axios.post(API_BASE_URL + '/user/login', user)
+        //     .then(function (response) {
+        //         if (response.status === 200) {
+        //             console.log("Login Successful", response.data)
+        //             localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
+        //             history.push('/home')
+        //             alert(
+        //                 `Logged in successfully welcome ${response.data.user.fullName}.`
+        //             );
+        //         } else {
+        //             console.log("Some error ocurred");
+        //         }
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error.response.data.message);
+        //         alert(
+        //             `${error.response.data.message}.`
+        //         );
+        //     });
     }
 
     const onRegistration = () => {

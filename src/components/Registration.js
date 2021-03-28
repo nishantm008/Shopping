@@ -6,9 +6,9 @@ import lockIcon from '../assets/lockIcon.svg';
 import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
 import { useHistory } from 'react-router';
-import axios from 'axios';
-import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
-
+// import axios from 'axios';
+// import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -87,7 +87,13 @@ const useStyles = makeStyles((theme) =>
         }
     }),
 );
-export default function Signup() {
+
+Signup.propTypes = {
+    createUser: PropTypes.func,
+    user: PropTypes
+  }
+
+export default function Signup(props) {
 
     const classes = useStyles();
     const history = useHistory()
@@ -114,36 +120,46 @@ export default function Signup() {
         setPassword(e.target.value);
     };
 
-    const onChangeconfirmPassword = (e) => {
+    const onChangeconfirmPassword =  (e) => {
         setconfirmPassword(e.target.value);
     };
 
-    const sendDetailsToServer = () => {
+    const sendDetailsToServer =  () => {
         if (fullName.length && username.length && email.length && password.length) {
-            const payload = {
+            const user = {
                 "fullName": fullName,
                 "username": username,
                 "email": email,
                 "password": password,
                 "confirmPassword": confirmPassword
             }
-            axios.post(API_BASE_URL + '/user/signup', payload)
-                .then(function (response) {
-                    if (response.status === 200) {
-                        localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-                        history.push('/')
-                    } else {
-                        console.log("Some error ocurred");
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        } else {
-            console.log('Please enter valid username and password')
-        }
+            try {
+                 props.createUser(user)
+                console.log('Success:', user)
+                history.push('/')
+              } catch (error) {
+                console.error('Error:', error)
+              }
 
-    }
+            }
+        }
+        //     axios.post(API_BASE_URL + '/user/signup', payload)
+        //         .then(function (response) {
+        //             if (response.status === 200) {
+        //                 localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
+        //                 history.push('/')
+        //             } else {
+        //                 console.log("Some error ocurred");
+        //             }
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        // } else {
+        //     console.log('Please enter valid username and password')
+        // }
+
+  
 
     const handleSubmit = (e) => {
         e.preventDefault();
