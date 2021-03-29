@@ -16,13 +16,14 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 // import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
 // import PropTypes from 'prop-types'
+import Footer from './Footer';
+
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             flexGrow: 1,
-            width: "1920px",
-            height: "937px"
+            width: "100%",
         },
         loginGrid: {
             width: "1155px",
@@ -202,7 +203,8 @@ export default function Login(props) {
     }
 
     return (
-        <Grid container className={classes.root}>
+        <div className={classes.root}>
+        <Grid container>
             <Grid className={classes.loginGrid} item xs={7}>
                 <Typography className={classes.logoText}>Divine</Typography>
                 <Typography className={classes.logominiText}>Explore</Typography>
@@ -314,6 +316,8 @@ export default function Login(props) {
             <Grid item xs={5}>
                 <CardMedia component="img" height="900px" src={logo} />
             </Grid>
+            <Footer />
         </Grid>
+        </div>
     )
 };

@@ -17,6 +17,8 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import { useHistory } from 'react-router';
 import upArrow from '../assets/upArrow.svg';
 import downArrow from '../assets/downArrow.svg';
+import Footer from './Footer';
+
 
 // const clientId =
 //     '795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com';
@@ -272,6 +274,7 @@ export default function Home() {
                 </Grid >
                 <Typography className={classes.webQuote} >The world is my <br></br> Runway.</Typography>
             </Grid>
+            <Footer />
         </Grid >
     );
 }
