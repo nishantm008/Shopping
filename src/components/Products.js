@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Typography, Grid, Container,
-    Card, CardContent,
+    Card, CardContent, CardActionArea,
     CardActions, Button, CardMedia
 } from '@material-ui/core';
 import Herenow from '../assets/HereNow.jpg';
@@ -67,11 +67,13 @@ export default function ProducCatalog() {
                 {products.map((product) => (
                     <Grid item key={product.title} xs={12} sm={6} md={4}>
                         <Card>
+                        <CardActionArea>
                             <CardMedia
                                 component="img"
                                 src={product.imgsrc}
                                 height="400px"
                             />
+                            </CardActionArea>
                             <CardContent>
                                 <div >
                                     <Typography component="h6" variant="h5" color="textPrimary">
