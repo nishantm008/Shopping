@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 var cors = require("cors");
 const user = require("./routes/user");
+const itemRoutes = require('./routes/item');
+const cartRoutes = require('./routes/cart');
+const orderRoutes = require('./routes/order');
 var mongoose = require("mongoose");
 
 const app = express();
@@ -36,6 +39,9 @@ app.get("/", (req, res) => {
  * Method - *
  */
 app.use("/user", user);
+app.use('/item',itemRoutes);
+app.use('/cart',cartRoutes);
+app.use('/order',orderRoutes);
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`);

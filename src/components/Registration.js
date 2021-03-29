@@ -9,13 +9,14 @@ import { useHistory } from 'react-router';
 // import axios from 'axios';
 // import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
 import PropTypes from 'prop-types'
+import Footer from './Footer';
+
 
 const useStyles = makeStyles((theme) =>
     createStyles({
         root: {
             flexGrow: 1,
-            width: "1920px",
-            height: "937px"
+            width: "100%",
         },
         signupGrid: {
             width: "1155px",
@@ -308,6 +309,7 @@ export default function Signup(props) {
             <Grid item xs={5}>
                 <CardMedia className={classes.sideImage} component="img" src={logo} />
             </Grid>
+            <Footer />
         </Grid>
     )
 };

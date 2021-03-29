@@ -1,6 +1,7 @@
 import React from 'react';
 import Register from "./containers/Register";
 import Login from "./components/Login";
+import ShoppingHome from "./components/ShoppingHome";
 import {
   BrowserRouter as Router,
   Switch,
@@ -32,6 +33,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
+          <Route exact path="/shop" component={ShoppingHome} />
           <PrivateRoute exact path="/home" component={Home} />
         </Switch>
       </Router>
