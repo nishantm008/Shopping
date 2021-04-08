@@ -63,6 +63,7 @@ export default function PrimarySearchAppBar() {
     const onSuccessLogout = () => {
         localStorage.clear();
         alert('Logout made successfully ✌');
+        history.push('/')
     };
 
     const onHomeClick =() => {
