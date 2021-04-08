@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import clsx from 'clsx';
-import Drawer from '@material-ui/core/Drawer';
+import AppBar from './AppBar'
 import { Typography, Button, Tabs, Tab } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import shopping1 from '../assets/shopping1.jpg';
@@ -138,7 +133,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
     const history = useHistory()
     const [value, setValue] = useState(0);
 
@@ -146,48 +140,14 @@ export default function Home() {
         setValue(newValue);
     };
 
-    const onSuccessLogout = () => {
-        localStorage.clear();
-        history.push('/')
-        alert('Logout made successfully ✌');
-    };
-
     const onProductClick =() => {
         history.push('/shop')
     }
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    const list = () => (
-        <div
-            className={clsx(classes.list)}
-            role="presentation"
-            onClick={handleDrawerOpen}
-        >
-            <Button className={classes.productButton} onClick={onProductClick} variant="text">Products</Button>
-            <Button className={classes.log} color="primary" onClick={onSuccessLogout} variant="text">Logout</Button>
-        </div>
-    );
-
+  
     return (
         <Grid container className={classes.root}>
             <Grid className={classes.drawerGrid} item xs={3}>
-                <AppBar className={classes.appBar} position="relative" elevation={0}>
-                    <Toolbar>
-                        <IconButton className={classes.menuButton} onClick={handleDrawerOpen} onClose={handleDrawerClose} edge="start" color="inherit" aria-label="menu">
-                            <MenuIcon />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
-                <Drawer anchor='left' open={open} onClose={handleDrawerClose}>
-                    {list()}
-                </Drawer>
+                 <AppBar value="Products" buttonClick={onProductClick} />
                 <Typography className={classes.logoText}>Divine</Typography>
                 <Typography className={classes.logominiText}>Explore</Typography>
                 <div className={classes.line}></div>

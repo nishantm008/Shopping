@@ -45,14 +45,14 @@ const useStyles = makeStyles((theme) => ({
             display: 'flex',
         },
     },
-    homeButton: {
+    listButton: {
         position: 'absolute',
         top: theme.spacing(12),
         left: theme.spacing(15),
     }
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const history = useHistory()
@@ -63,11 +63,8 @@ export default function PrimarySearchAppBar() {
     const onSuccessLogout = () => {
         localStorage.clear();
         alert('Logout made successfully ✌');
+        history.push('/')
     };
-
-    const onHomeClick =() => {
-        history.push('/home')
-    }
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -82,7 +79,7 @@ export default function PrimarySearchAppBar() {
             role="presentation"
             onClick={handleDrawerOpen}
         >
-             <Button className={classes.homeButton} onClick={onHomeClick} variant="text" >Home</Button>
+             <Button className={classes.listButton} onClick={props.buttonClick} variant="text" >{props.value}</Button>
             <Button className={classes.log} color="primary" onClick={onSuccessLogout} variant="text">Logout</Button>
         </div>
     );
