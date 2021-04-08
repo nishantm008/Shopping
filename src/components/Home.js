@@ -8,7 +8,6 @@ import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
 import { Typography, Button, Tabs, Tab } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-// import { GoogleLogout } from 'react-google-login';
 import shopping1 from '../assets/shopping1.jpg';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
@@ -18,10 +17,6 @@ import { useHistory } from 'react-router';
 import upArrow from '../assets/upArrow.svg';
 import downArrow from '../assets/downArrow.svg';
 import Footer from './Footer';
-
-
-// const clientId =
-//     '795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com';
 
 const StyledTabs = withStyles({
     indicator: {
@@ -134,6 +129,11 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "-170px",
         font: "normal normal normal 40px/45px Franklin Gothic",
     },
+    productButton: {
+        position: 'absolute',
+        top: theme.spacing(12),
+        left: theme.spacing(15),
+    }
 }));
 
 export default function Home() {
@@ -152,6 +152,10 @@ export default function Home() {
         alert('Logout made successfully ✌');
     };
 
+    const onProductClick =() => {
+        history.push('/shop')
+    }
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -166,17 +170,8 @@ export default function Home() {
             role="presentation"
             onClick={handleDrawerOpen}
         >
+            <Button className={classes.productButton} onClick={onProductClick} variant="text">Products</Button>
             <Button className={classes.log} color="primary" onClick={onSuccessLogout} variant="text">Logout</Button>
-            {/* <GoogleLogout
-                clientId={clientId}
-                buttonText="Logout"
-                onLogoutSuccess={onSuccessLogout}
-                render={renderProps => (
-                    <Button className={classes.log}
-                        onClick={renderProps.onClick}
-                        variant="text">Logout</Button>
-                )}
-            ></GoogleLogout> */}
         </div>
     );
 

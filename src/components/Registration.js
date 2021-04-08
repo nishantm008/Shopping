@@ -6,11 +6,8 @@ import lockIcon from '../assets/lockIcon.svg';
 import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
 import { useHistory } from 'react-router';
-// import axios from 'axios';
-// import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
 import PropTypes from 'prop-types'
 import Footer from './Footer';
-
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -144,23 +141,6 @@ export default function Signup(props) {
 
             }
         }
-        //     axios.post(API_BASE_URL + '/user/signup', payload)
-        //         .then(function (response) {
-        //             if (response.status === 200) {
-        //                 localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-        //                 history.push('/')
-        //             } else {
-        //                 console.log("Some error ocurred");
-        //             }
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         });
-        // } else {
-        //     console.log('Please enter valid username and password')
-        // }
-
-  
 
     const handleSubmit = (e) => {
         e.preventDefault();
