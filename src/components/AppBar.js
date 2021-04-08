@@ -13,14 +13,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-// import Grid from '@material-ui/core/Grid';
-// import shopping1 from '../assets/shopping1.jpg';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         width: "100%",
-        // height: "100%"
     },
     grow: {
         flexGrow: 1,
@@ -47,12 +45,17 @@ const useStyles = makeStyles((theme) => ({
             display: 'flex',
         },
     },
+    homeButton: {
+        position: 'absolute',
+        top: theme.spacing(12),
+        left: theme.spacing(15),
+    }
 }));
 
 export default function PrimarySearchAppBar() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-
+    const history = useHistory()
     const isMenuOpen = Boolean(anchorEl);
     const [open, setOpen] = useState(false);
 
@@ -61,6 +64,10 @@ export default function PrimarySearchAppBar() {
         localStorage.clear();
         alert('Logout made successfully ✌');
     };
+
+    const onHomeClick =() => {
+        history.push('/home')
+    }
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -75,6 +82,7 @@ export default function PrimarySearchAppBar() {
             role="presentation"
             onClick={handleDrawerOpen}
         >
+             <Button className={classes.homeButton} onClick={onHomeClick} variant="text" >Home</Button>
             <Button className={classes.log} color="primary" onClick={onSuccessLogout} variant="text">Logout</Button>
         </div>
     );

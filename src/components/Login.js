@@ -8,16 +8,10 @@ import PersonIcon from '@material-ui/icons/Person';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
 import facebookButton from '../assets/facebookButton.svg';
-// import googleButton from '../assets/googleButton.svg';
-// import { GoogleLogin } from 'react-google-login';
 import { useHistory } from 'react-router';
-// import { refreshTokenSetup } from '../utils/refreshToken';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-// import axios from 'axios';
 import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../constants/apiConstants';
-// import PropTypes from 'prop-types'
 import Footer from './Footer';
-
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -141,7 +135,7 @@ export default function Login(props) {
                 history.push({
                     pathname: '/home',
                     state: { result }
-                  })
+                })
                 alert(
                     `Logged in successfully welcome ${result.user.fullName}.`
                 );
@@ -153,46 +147,11 @@ export default function Login(props) {
         } catch (error) {
             console.error('unhandled error:', error)
         }
-        // axios.post(API_BASE_URL + '/user/login', user)
-        //     .then(function (response) {
-        //         if (response.status === 200) {
-        //             console.log("Login Successful", response.data)
-        //             localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
-        //             history.push('/home')
-        //             alert(
-        //                 `Logged in successfully welcome ${response.data.user.fullName}.`
-        //             );
-        //         } else {
-        //             console.log("Some error ocurred");
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error.response.data.message);
-        //         alert(
-        //             `${error.response.data.message}.`
-        //         );
-        //     });
     }
 
     const onRegistration = () => {
         history.push('/register')
     }
-
-    // const onSuccess = (res) => {
-    //     history.push('/home')
-    //     console.log('Login Success: currentUser:', res.profileObj);
-    //     alert(
-    //         `Logged in successfully welcome ${res.profileObj.name}.`
-    //     );
-    //     refreshTokenSetup(res);
-    // };
-
-    // const onFailure = (res) => {
-    //     console.log('Login failed: res:', res);
-    //     alert(
-    //         `Failed to login.`
-    //     );
-    // };
 
     const responseFacebook = (res) => {
         history.push('/home')
@@ -204,120 +163,104 @@ export default function Login(props) {
 
     return (
         <div className={classes.root}>
-        <Grid container>
-            <Grid className={classes.loginGrid} item xs={7}>
-                <Typography className={classes.logoText}>Divine</Typography>
-                <Typography className={classes.logominiText}>Explore</Typography>
-                <AccountCircleIcon style={{
-                    height: "105px", width: "120px", marginLeft: "420px", marginTop: " -88px",
-                }} />
-                <Typography className={classes.loginText}>Login</Typography>
-                <div className={classes.line}></div>
-                <Grid className={classes.textfieldGrid} >
-                    <form onSubmit={handleSubmit}>
-                        <Grid item>
-                            <TextField
-                                name="username"
-                                value={username}
-                                required
-                                onChange={onChangeUsername}
-                                placeholder="Username"
-                                variant="outlined"
-                                size="small"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <PersonIcon />
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                name="password"
-                                value={password}
-                                required
-                                onChange={onChangePassword}
-                                placeholder="Password"
-                                variant="outlined"
-                                size="small"
-                                type={showPassword ? 'text' : 'password'}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <img src={lockIcon} height="22px" width="18px" alt="" />
-                                        </InputAdornment>
-                                    ),
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={onPasswordVisibilityToggle}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </Grid>
-                        <Grid>
-                            <Button className={classes.loginButton}
-                                variant="outlined"
-                                disableRipple="false"
-                                type="submit"
-                                disabled={!(username.length > 0 && password.length > 0)}
-                            >
-                                LOGIN
-                          </Button>
-                        </Grid>
-                        <Grid>
-                            <Button className={classes.linkText}
-                                variant="text"
-                                disableRipple="false"
-                                onClick={onRegistration}
-                            >
-                                Don't have account? Click here
-                           </Button>
-                        </Grid>
-                    </form>
+            <Grid container>
+                <Grid className={classes.loginGrid} item xs={7}>
+                    <Typography className={classes.logoText}>Divine</Typography>
+                    <Typography className={classes.logominiText}>Explore</Typography>
+                    <AccountCircleIcon style={{
+                        height: "105px", width: "120px", marginLeft: "420px", marginTop: " -88px",
+                    }} />
+                    <Typography className={classes.loginText}>Login</Typography>
+                    <div className={classes.line}></div>
+                    <Grid className={classes.textfieldGrid} >
+                        <form onSubmit={handleSubmit}>
+                            <Grid item>
+                                <TextField
+                                    name="username"
+                                    value={username}
+                                    required
+                                    onChange={onChangeUsername}
+                                    placeholder="Username"
+                                    variant="outlined"
+                                    size="small"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <PersonIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <TextField
+                                    name="password"
+                                    value={password}
+                                    required
+                                    onChange={onChangePassword}
+                                    placeholder="Password"
+                                    variant="outlined"
+                                    size="small"
+                                    type={showPassword ? 'text' : 'password'}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <img src={lockIcon} height="22px" width="18px" alt="" />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={onPasswordVisibilityToggle}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOutlinedIcon /> : <VisibilityOffOutlinedIcon />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid>
+                                <Button className={classes.loginButton}
+                                    variant="outlined"
+                                    disableRipple="false"
+                                    type="submit"
+                                    disabled={!(username.length > 0 && password.length > 0)}
+                                >
+                                    LOGIN
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button className={classes.linkText}
+                                    variant="text"
+                                    disableRipple="false"
+                                    onClick={onRegistration}
+                                >
+                                    Don't have account? Click here
+                                </Button>
+                            </Grid>
+                        </form>
+                    </Grid>
+                    <Grid>
+                        <FacebookLogin
+                            appId="126512782728952"
+                            callback={responseFacebook}
+                            render={renderProps => (
+                                <Button onClick={renderProps.onClick}
+                                    style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "20px" }}>
+                                    <img src={facebookButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
+                                </Button>
+                            )}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid>
-                    <FacebookLogin
-                        appId="126512782728952"
-                        callback={responseFacebook}
-                        // onFailure={onFailure}
-                        render={renderProps => (
-                            <Button onClick={renderProps.onClick}
-                                style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "20px" }}>
-                                <img src={facebookButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
-                            </Button>
-                        )}
-                    />
+                <Grid item xs={5}>
+                    <CardMedia component="img" height="900px" src={logo} />
                 </Grid>
-                <Grid>
-                    {/* <GoogleLogin
-                    clientId="795447102884-93gjj56spb8g83vflgjgjej16ggj1hlt.apps.googleusercontent.com"
-                    render={renderProps => (
-                        <Button onClick={renderProps.onClick}
-                            disabled={renderProps.disabled}
-                            style={{ height: "30px", width: "150px", marginLeft: "408px", marginTop: "10px" }}>
-                            <img src={googleButton} style={{ height: "60px", width: "150px" }} alt="facebook" />
-                        </Button>
-                    )}
-                    // onSuccess={onSuccess}
-                    // onFailure={onFailure}
-                    cookiePolicy={'single_host_origin'}
-                /> */}
-                </Grid>
+                <Footer />
             </Grid>
-            <Grid item xs={5}>
-                <CardMedia component="img" height="900px" src={logo} />
-            </Grid>
-            <Footer />
-        </Grid>
         </div>
     )
 };

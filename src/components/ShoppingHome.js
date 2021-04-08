@@ -6,7 +6,6 @@ import { Typography, Grid } from '@material-ui/core';
 import Footer from './Footer';
 import Products from "./Products";
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,

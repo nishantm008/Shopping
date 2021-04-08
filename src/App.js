@@ -16,7 +16,6 @@ import store from './redux/store'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      // Purple and green play nicely together.
       main: "#89279E",
     },
     secondary: {
@@ -34,7 +33,7 @@ function App() {
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/shop" component={ShoppingHome} />
-          <PrivateRoute exact path="/home" component={Home} />
+          <Route exact path="/home" component={Home} />
         </Switch>
       </Router>
     </ThemeProvider>
