@@ -32,8 +32,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/shop" component={ShoppingHome} />
-          <Route exact path="/home" component={Home} />
+          <PrivateRoute exact path="/shop" component={ShoppingHome} />
+          <PrivateRoute exact path="/home" component={Home} />
         </Switch>
       </Router>
     </ThemeProvider>

@@ -5,6 +5,7 @@ import shopping1 from '../assets/shopping1.jpg';
 import { Typography, Grid } from '@material-ui/core';
 import Footer from './Footer';
 import Products from "./Products";
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,9 +51,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Shoopinghome(props) {
     const classes = useStyles();
+    const history = useHistory()
+
+    const onHomeClick =() => {
+        history.push('/home')
+    }
     return (
         <div className={classes.root}>
-            <AppBar />
+            <AppBar value="Home" buttonClick={onHomeClick} />
             <Grid container>
                 <Grid className={classes.drawerGrid} item xs={3}>
                     <Typography className={classes.logoText}>Divine</Typography>
